@@ -40,5 +40,6 @@ btn.addEventListener('click',()=>{
     newstr = arr.join(",")
     console.log(newstr);
     coorText.value = newstr;
+    clearInterval(timer);
 })
 

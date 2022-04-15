@@ -3,10 +3,22 @@ require_once('./conn.php');
 
 ini_set ( 'date.timezone' , 'Asia/Taipei' );  
 date_default_timezone_set('Asia/Taipei');
-
+$let = $_GET['let'];
 $timeStart = date("Y-m-d H:i:s");
+// $topicNum = $_SERVER['REQUEST_URI'];
+$topicNum = explode('=',explode('&',explode('?', $_SERVER['REQUEST_URI'])[1])[0])[1];
+echo $topicNum;
 
-if(isset($_POST['name']) && $_POST['name'] != ""){
+try{
+    $sql_str = "SELECT * FROM topic";
+    $RS_topic = $conn -> query($sql_str);
+    $total_RS_topic = $RS_topic -> rowCount();
+    
+}catch(PDOException $e){
+    die('Error!:'.$e->getMessage());
+}
+
+if(isset($_GET['name']) && $_GET['name'] != ""){
 ?>
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
@@ -16,71 +28,72 @@ if(isset($_POST['name']) && $_POST['name'] != ""){
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>論文</title>
     <style>
-    *{
-        margin:0;
-        padding: 0;
-    }
-    #app{
-        width:100%;
-        height: 100vh;
-        background-color: #ccc;
-    }
+        *{
+            margin:0;
+            padding: 0;
+        }
+        #app{
+            width:100%;
+            height: 100vh;
+            background-color: #ccc;
+        }
+        #app .topicImg{
+            width:300px;
+            height: 300px;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
-
+  
 
     <div id="app">
-        <form action="./send.php" method="post">
-            <?php if(isset($_POST['q1'])){
-                for($n=2;$n<=10;$n++){
-                echo "<input type='text' name='q".$n."' value='".$_POST["q$n"]."'>" ;
+        <form action="./send.php" method="get">
+              <?php
+                $n=0;
+                $isfinal = false;
+                while(true){
+                    $n++;
+                    if(isset($_GET["q$n"])){
+                        $s = 0;
+                        for($i=$n+1;$i<=$let;$i++){
+                            echo "<input name='q".$i."' value='".$_GET["q$i"]."' type='hidden'>";
+                            $s++;
+                        }
+                        if($s == 0){
+                            $isfinal = true;
+                        }
+                        break;
+                    }
                 }
-            }elseif(isset($_POST['q2'])){
-                for($n=3;$n<=10;$n++){
-                    echo "<input type='text' name='q".$n."' value='".$_POST["q$n"]."'>" ;
+                if($isfinal){
+                    echo "<input name='final' value='final' type='hidden' />";
                 }
-            }elseif(isset($_POST['q3'])){
-                for($n=4;$n<=10;$n++){
-                    echo "<input type='text' name='q".$n."' value='".$_POST["q$n"]."'>" ;
-                }
-            }elseif(isset($_POST['q4'])){
-                for($n=5;$n<=10;$n++){
-                    echo "<input type='text' name='q".$n."' value='".$_POST["q$n"]."'>" ;
-                }
-            }elseif(isset($_POST['q5'])){
-                for($n=6;$n<=10;$n++){
-                    echo "<input type='text' name='q".$n."' value='".$_POST["q$n"]."'>" ;
-                }
-            }elseif(isset($_POST['q6'])){
-                for($n=7;$n<=10;$n++){
-                    echo "<input type='text' name='q".$n."' value='".$_POST["q$n"]."'>" ;
-                }
-            }elseif(isset($_POST['q7'])){
-                for($n=8;$n<=10;$n++){
-                    echo "<input type='text' name='q".$n."' value='".$_POST["q$n"]."'>" ;
-                }
+              ?>
+           <?php
+           $num = 0;
+           foreach($RS_topic as $item){
+            $num ++;
+            if($num == $topicNum){
+            ?>
+                <input type="hidden" name="ans" value="<?php echo $item['ans']; ?>">
+                <img src="./images/img_upload2/<?php echo $item['topic']; ?>" class="topicImg">
+                <input type="radio" name="op" value="1">A
+                <input type="radio" name="op" value="2">B
+                <input type="radio" name="op" value="3">C
+                <input type="radio" name="op" value="4">D
+            <?php
             }
-            elseif(isset($_POST['q8'])){
-                for($n=9;$n<=10;$n++){
-                    echo "<input type='text' name='q".$n."' value='".$_POST["q$n"]."'>" ;
-                }
-            }elseif(isset($_POST['q9'])){
-                for($n=10;$n<=10;$n++){
-                    echo "<input type='text' name='q".$n."' value='".$_POST["q$n"]."'>" ;
-                }
-            }else{
-                echo "<input type='hidden' name='finish' value='finish' />";
-            }
-             ?>
-                
-              
+           }
+           
+           ?>
 
-
-            <input type="hidden" name="name" value="<?php echo $_POST['name'];?>">
+            <input type="hidden" name="name" value="<?php echo $_GET['name'];?>">
             <input type="hidden" name="coor" id="coorText" value="" />
             <input type="hidden" name="timeStart" value="<?php echo $timeStart; ?>" />
+            <input type="hidden" name="let" value="<?php echo $let; ?>">
             <input type="submit" value="送出" id="btn" />
+            <!-- <a href="javascript:;" id="btn">送出</a> -->
         </form>
     </div>
     <!-- <div id="app">

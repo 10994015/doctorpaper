@@ -1,14 +1,13 @@
 <?php
 $randArr = [];
+$let = 5;
 while(true){
-    $randNum = rand(1,20);
-    foreach($randArr as $item){
-        if($randNum == $item){
-            continue;
-        }
+    $randNum = rand(1,9);
+    if(in_array($randNum, $randArr)){
+        continue;
     }
     array_push($randArr, $randNum);
-    if(count($randArr)==10){
+    if(count($randArr)==$let){
         break;
     }
 }
@@ -24,11 +23,12 @@ $qnum = 1;
     <title>Document</title>
 </head>
 <body>
-    <form action="./start.php" method="post">
+    <form action="./start.php" method="get">
         <?php foreach($randArr as $item){?>
             <input type="hidden" name="<?php echo "q".$qnum; ?>" value="<?php echo $item; ?>" />
         <?php $qnum++; } ?>
             姓名:<input type="text" name="name" />
+            <input type="hidden" name="let" value="<?php echo $let; ?>">
             <input type="submit" value="開始作答" />
 
     </form>
