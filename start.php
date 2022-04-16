@@ -7,7 +7,6 @@ $let = $_GET['let'];
 $timeStart = date("Y-m-d H:i:s");
 // $topicNum = $_SERVER['REQUEST_URI'];
 $topicNum = explode('=',explode('&',explode('?', $_SERVER['REQUEST_URI'])[1])[0])[1];
-echo $topicNum;
 
 try{
     $sql_str = "SELECT * FROM topic";
@@ -34,14 +33,32 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
         }
         #app{
             width:100%;
-            height: 100vh;
-            background-color: #ccc;
+            min-height: 100vh;
+            height: auto;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding:50px 0;
         }
         #app .topicImg{
-            width:300px;
-            height: 300px;
+            width:500px;
+            height: auto;
             object-fit: cover;
         }
+        form{
+            display: flex;
+            flex-direction: column;
+
+        }
+        .topicBox{
+            margin:5px 0;
+            font-family: Arial, Helvetica, sans-serif
+        }
+        .topicBox > input {
+            margin-right:3px;
+        }
+        
     </style>
 </head>
 <body>
@@ -78,10 +95,10 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
             ?>
                 <input type="hidden" name="ans" value="<?php echo $item['ans']; ?>">
                 <img src="./images/img_upload2/<?php echo $item['topic']; ?>" class="topicImg">
-                <input type="radio" name="op" value="1">A
-                <input type="radio" name="op" value="2">B
-                <input type="radio" name="op" value="3">C
-                <input type="radio" name="op" value="4">D
+                <label class="topicBox" for="q1"><input type="radio" class="topicRadio" id="q1" name="op" value="1">A</label>
+                <label class="topicBox" for="q2"><input type="radio" class="topicRadio" id="q2" name="op" value="2">B</label>
+                <label class="topicBox" for="q3"><input type="radio" class="topicRadio" id="q3" name="op" value="3">C</label>
+                <label class="topicBox" for="q4"><input type="radio" class="topicRadio" id="q4" name="op" value="4">D</label>
             <?php
             }
            }
@@ -92,7 +109,7 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
             <input type="hidden" name="coor" id="coorText" value="" />
             <input type="hidden" name="timeStart" value="<?php echo $timeStart; ?>" />
             <input type="hidden" name="let" value="<?php echo $let; ?>">
-            <input type="submit" value="送出" id="btn" />
+            <input type="submit" value="送出" id="btn" disabled />
             <!-- <a href="javascript:;" id="btn">送出</a> -->
         </form>
     </div>
@@ -105,6 +122,16 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
     </div> -->
 
     <script src="script.js"></script>
+    <script>
+    const topicRadio = document.getElementsByClassName('topicRadio');
+    for(let i=0;i<topicRadio.length;i++){
+        topicRadio[i].addEventListener('change',disabledFn);
+    }
+    function disabledFn(){
+        btn.disabled = false;
+    }
+
+    </script>
 </body>
 </html>
 

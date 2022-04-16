@@ -1,3 +1,9 @@
+<?php 
+session_start();
+
+if(isset($_SESSION['username'])){
+?>
+
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
@@ -8,7 +14,7 @@
 </head>
 <body>
     
-
+<a href="./">回前頁</a>
     <form action="./uploadChk.php" enctype="multipart/form-data" method="POST">
         <h2>上傳圖片</h2>
         <input type="file" name="upload_img" id="file" />
@@ -20,3 +26,9 @@
     </form>
 </body>
 </html>
+
+<?php }else{ ?>
+    <h2>請先登入!!!</h2>
+    <a href="./login.php">點擊登入</a>
+
+<?php } ?>

@@ -7,6 +7,7 @@ let arr = [];
 let timer = null;
 const btn = document.getElementById('btn');
 const coorText = document.getElementById('coorText');
+
 function getMousePos(e){
     // console.log(e.pageY);
     x = e.x;
@@ -33,6 +34,9 @@ timer = setInterval(()=>{
     }
 },100)
 
+
+
+
 btn.addEventListener('click',()=>{
     const reArr = arr.reverse();
     arr.length  = arr.length - 1;
@@ -42,4 +46,5 @@ btn.addEventListener('click',()=>{
     coorText.value = newstr;
     clearInterval(timer);
 })
+
 
