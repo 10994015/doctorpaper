@@ -7,9 +7,10 @@ $let = $_GET['let'];
 $timeStart = date("Y-m-d H:i:s");
 // $topicNum = $_SERVER['REQUEST_URI'];
 $topicNum = explode('=',explode('&',explode('?', $_SERVER['REQUEST_URI'])[1])[0])[1];
+$pre = $_SERVER['QUERY_STRING'];
 
 try{
-    $sql_str = "SELECT * FROM topic";
+    $sql_str = "SELECT * FROM topic ORDER BY qnumber ASC";
     $RS_topic = $conn -> query($sql_str);
     $total_RS_topic = $RS_topic -> rowCount();
     
@@ -104,12 +105,15 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
            }
            
            ?>
-
+            <input type="hidden" name="pre" value="<?php echo $pre; ?>">
             <input type="hidden" name="name" value="<?php echo $_GET['name'];?>">
             <input type="hidden" name="coor" id="coorText" value="" />
             <input type="hidden" name="timeStart" value="<?php echo $timeStart; ?>" />
             <input type="hidden" name="let" value="<?php echo $let; ?>">
-            <input type="submit" value="送出" id="btn" disabled />
+            <a href=""></a>
+            <input type="submit" value="送出" name="btn" id="btn" disabled />
+            <input type="submit" value="上一題" name="btn" id=""  />
+            <input type="submit" value="下一題" name="btn" id=""  />
             <!-- <a href="javascript:;" id="btn">送出</a> -->
         </form>
     </div>

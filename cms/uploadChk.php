@@ -12,10 +12,12 @@ if(isset($_POST['ans'])){
     $imgname = $rand.$file_name;
     
     $ans = $_POST['ans'];
-    $sql_str = "INSERT INTO topic (topic, ans) VALUES (:imgname, :ans)";
+    $qnumber = $_POST['qnumber'];
+    $sql_str = "INSERT INTO topic (topic, ans, qnumber) VALUES (:imgname, :ans, :qnumber)";
     $stmt = $conn -> prepare($sql_str);
     $stmt -> bindParam(':imgname' ,$imgname);
     $stmt -> bindParam(':ans' ,$ans);
+    $stmt -> bindParam(':qnumber' ,$qnumber);
     $stmt ->execute();
 
 

@@ -14,15 +14,17 @@ if(isset($_POST['topic']) && $_POST['topic'] != ""){
         }
        
         try{
-            $sql_str = "UPDATE topic SET ans = :ans WHERE id  = :id";
+            $sql_str = "UPDATE topic SET ans = :ans,qnumber=:qnumber WHERE id  = :id";
             //執行$conn物件中的prepare()預處理器
             $stmt = $conn->prepare($sql_str);
          
             //接收表單輸入的資料
             $id = $_POST['id'];
+            $qnumber = $_POST['qnumber'];
             //設定準備好的$stmt物件中對應的參數值
             $stmt->bindParam(':id' ,$id);
             $stmt->bindParam(':ans' ,$ans);
+            $stmt->bindParam(':qnumber' ,$qnumber);
          
             //執行準備好的$stmt物件工作
             $stmt->execute();

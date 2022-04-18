@@ -47,6 +47,7 @@ try {
     <form action="updateTopicChk.php" method="post">
         <img src="../images/img_upload2/<?php echo $row_RS_mb['topic']; ?>" alt=""><br>
         答案(請輸入A、B、C、D):<input type="text" value="<?php echo $ans;?>" name="topic">
+        題號:<input type="number" name="qnumber" value="<?php echo $row_RS_mb['qnumber']; ?>">
         <input type="hidden" name="id" value="<?php echo $row_RS_mb['id']; ?>">
         <input type="submit" value="更改">
     </form>

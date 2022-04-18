@@ -57,9 +57,9 @@ if(isset($_SESSION['username'])){
         <?php foreach($RS_topic as $item){ ?>
             <div class="list">
                 <img src="../images/img_upload2/<?php echo $item['topic']; ?>" alt="">
-                <div class="ans">答案: <?php if($item['ans'] ==1){echo "A";}elseif($item['ans'] ==2){echo "B";}elseif($item['ans'] ==3){echo "C";}else{echo "D";} ?></div>
+                <div class="ans">答案: <?php if($item['ans'] ==1){echo "A";}elseif($item['ans'] ==2){echo "B";}elseif($item['ans'] ==3){echo "C";}else{echo "D";} ?><br>題號:<?php echo $item['qnumber']; ?></div>
                 <div class="btn">
-                    <a href="./updataTopic.php?id=<?php echo $item['id']; ?>">編輯題目答案</a>
+                    <a href="./updataTopic.php?id=<?php echo $item['id']; ?>">編輯題目</a>
                     <a href="javascript:;"" onclick="deleteTopicFn(<?php echo $item['id']; ?>)">刪除題目</a>
                 </div>
             </div>

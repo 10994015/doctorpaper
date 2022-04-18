@@ -5,24 +5,24 @@ $stmt = $conn->prepare($sql_str);
 $stmt->execute();
 $row_topic = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$sql = "SELECT * FROM topic";
+$sql = "SELECT * FROM topic ORDER BY qnumber ASC";
 $RS_topic = $conn -> query($sql);
 $total_RS_topic = $RS_topic -> rowCount();
-$max = intval($total_RS_topic);
-$randArr = [];
+// $max = intval($total_RS_topic);
+
+// $randArr = [];
 $let = intval($row_topic['num']);
-while(true){
-    $randNum = rand(1,$max);
-    if(in_array($randNum, $randArr)){
-        continue;
-    }
-    array_push($randArr, $randNum);
-    if(count($randArr)==$let){
-        break;
-    }
-}
+// while(true){
+//     $randNum = rand(1,$max);
+//     if(in_array($randNum, $randArr)){
+//         continue;
+//     }
+//     array_push($randArr, $randNum);
+//     if(count($randArr)==$let){
+//         break;
+//     }
+// }
 $qnum = 1;
-// echo $url;
 ?>
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
@@ -54,9 +54,9 @@ $qnum = 1;
    <div id="app">
 
     <form action="./start.php" method="get">
-            <?php foreach($randArr as $item){?>
-                <input type="hidden" name="<?php echo "q".$qnum; ?>" value="<?php echo $item; ?>" />
-            <?php $qnum++; } ?>
+            <?php foreach($RS_topic as $item){?>
+                <input type="hidden" name="<?php echo 'q'.$item['qnumber']; ?>" value="<?php echo $item['qnumber']; ?>" />
+            <?php  if($qnum==$let){break;} $qnum++;  } ?>
                 請輸入姓名:<br>
                 <input type="text" name="name" id="name" /><br>
                 <input type="hidden" name="let" value="<?php echo $let; ?>">
