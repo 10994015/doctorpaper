@@ -1,6 +1,6 @@
 <?php
 require_once('./conn.php');
-$sql_str = "SELECT * FROM topicNum WHERE id = 1";
+$sql_str = "SELECT * FROM topicnum WHERE id = 1";
 $stmt = $conn->prepare($sql_str);
 $stmt->execute();
 $row_topic = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -8,20 +8,9 @@ $row_topic = $stmt->fetch(PDO::FETCH_ASSOC);
 $sql = "SELECT * FROM topic ORDER BY qnumber ASC";
 $RS_topic = $conn -> query($sql);
 $total_RS_topic = $RS_topic -> rowCount();
-// $max = intval($total_RS_topic);
 
-// $randArr = [];
 $let = intval($row_topic['num']);
-// while(true){
-//     $randNum = rand(1,$max);
-//     if(in_array($randNum, $randArr)){
-//         continue;
-//     }
-//     array_push($randArr, $randNum);
-//     if(count($randArr)==$let){
-//         break;
-//     }
-// }
+
 $qnum = 1;
 ?>
 <!DOCTYPE html>
@@ -36,48 +25,47 @@ $qnum = 1;
             margin:0;
             padding: 0;
         }
-    #app{
-        width:100%;
-        height: 100vh;
-        background-color: #ddd;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    form{
-        line-height: 2;
-    }
-    
+        #app{
+            width:100%;
+            height: 100vh;
+            background-color: #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        form{
+            line-height: 2;
+        }
+        
     </style>
 </head>
 <body>
    <div id="app">
 
     <form action="./start.php" method="get">
-            <?php foreach($RS_topic as $item){?>
-                <input type="hidden" name="<?php echo 'q'.$item['qnumber']; ?>" value="<?php echo $item['qnumber']; ?>" />
-            <?php  if($qnum==$let){break;} $qnum++;  } ?>
-                請輸入姓名:<br>
-                <input type="text" name="name" id="name" /><br>
-                <input type="hidden" name="let" value="<?php echo $let; ?>">
-                <input type="submit" value="開始作答" id="btn" disabled />
-
+        <?php foreach($RS_topic as $item){?>
+            <input type="hidden" name="<?php echo 'q'.$item['qnumber']; ?>" value="<?php echo $item['qnumber']; ?>" />
+        <?php  if($qnum==$let){break;} $qnum++;  } ?>
+            請輸入姓名:<br>
+            <input type="text" name="name" id="name" /><br>
+            <input type="hidden" name="let" value="<?php echo $let; ?>">
+            <input type="submit" value="開始作答" id="btn" disabled />
         </form>
    </div>
 
    <script>
-   const name = document.getElementById('name');
-   const btn = document.getElementById('btn');
+    const name = document.getElementById('name');
+    const btn = document.getElementById('btn');
 
 
-   const disabledFn = ()=>{
-       if(name.value !=""){
-           btn.disabled = false;
-       }else{
-           btn.disabled = true;
-       }
-   }
-   name.addEventListener('keyup',disabledFn);
+    const disabledFn = ()=>{
+        if(name.value !=""){
+            btn.disabled = false;
+        }else{
+            btn.disabled = true;
+        }
+    }
+    name.addEventListener('keyup',disabledFn);
    
    </script>
 </body>

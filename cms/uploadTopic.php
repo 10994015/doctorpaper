@@ -1,7 +1,22 @@
 <?php 
+require_once('../conn.php');
 session_start();
+try{
+  
 
+    $sql_str = "SELECT MAX(qnumber) AS qnumber FROM topic";
+    $stmt = $conn->prepare($sql_str);
+    $stmt->execute();
+    $row_RS_mb = $stmt->fetch(PDO::FETCH_ASSOC);
+    $max = $row_RS_mb['qnumber']+1;
+
+    
+}catch(PDOException $e){
+    die('Error!:'.$e->getMessage());
+}
 if(isset($_SESSION['username'])){
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +52,9 @@ if(isset($_SESSION['username'])){
             <input type="radio" name="ans" value="4" />D
        </div>
         <p>題號:</p>
-        <input type="number" name="qnumber" value="1" />
+       
+            <input type="number" name="qnumber" value="<?php echo $max; ?>" />
+      
         <input type="submit" value="上傳"  id="submit" />
     </form>
 </body>

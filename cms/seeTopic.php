@@ -5,7 +5,6 @@ try{
     $sql_str = "SELECT * FROM topic";
     $RS_topic = $conn -> query($sql_str);
     $total_RS_topic = $RS_topic -> rowCount();
-    
 }catch(PDOException $e){
     die('Error!:'.$e->getMessage());
 }

@@ -78,6 +78,7 @@ if(isset($_SESSION['username'])){
                 <th>開始時間</th>
                 <th>結束時間</th>
                 <th>是否答對</th>
+                <th>題號</th>
             </tr>
         </thead>
         <tbody>
@@ -88,6 +89,7 @@ if(isset($_SESSION['username'])){
                 <td><?php echo $item['timeStart']; ?></td>
                 <td><?php echo $item['timeEnd']; ?></td>
                 <td><?php echo $item['bingo']; ?></td>
+                <td><?php echo $item['qnum']; ?></td>
             </tr>
             <?php } ?>
         </tbody>

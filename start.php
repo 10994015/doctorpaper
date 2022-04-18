@@ -8,7 +8,9 @@ $timeStart = date("Y-m-d H:i:s");
 // $topicNum = $_SERVER['REQUEST_URI'];
 $topicNum = explode('=',explode('&',explode('?', $_SERVER['REQUEST_URI'])[1])[0])[1];
 $pre = $_SERVER['QUERY_STRING'];
-
+$qs = explode("=",explode("&",$pre)[0])[0];
+$prechk = $qs == "q1";
+echo $prechk;
 try{
     $sql_str = "SELECT * FROM topic ORDER BY qnumber ASC";
     $RS_topic = $conn -> query($sql_str);
@@ -95,6 +97,7 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
             if($num == $topicNum){
             ?>
                 <input type="hidden" name="ans" value="<?php echo $item['ans']; ?>">
+                <input type="hidden" name="qnumber" value="<?php echo $item['qnumber']; ?>">
                 <img src="./images/img_upload2/<?php echo $item['topic']; ?>" class="topicImg">
                 <label class="topicBox" for="q1"><input type="radio" class="topicRadio" id="q1" name="op" value="1">A</label>
                 <label class="topicBox" for="q2"><input type="radio" class="topicRadio" id="q2" name="op" value="2">B</label>
@@ -105,17 +108,27 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
            }
            
            ?>
-            <input type="hidden" name="pre" value="<?php echo $pre; ?>">
             <input type="hidden" name="name" value="<?php echo $_GET['name'];?>">
             <input type="hidden" name="coor" id="coorText" value="" />
             <input type="hidden" name="timeStart" value="<?php echo $timeStart; ?>" />
             <input type="hidden" name="let" value="<?php echo $let; ?>">
             <a href=""></a>
             <input type="submit" value="送出" name="btn" id="btn" disabled />
-            <input type="submit" value="上一題" name="btn" id=""  />
-            <input type="submit" value="下一題" name="btn" id=""  />
-            <!-- <a href="javascript:;" id="btn">送出</a> -->
+            <?php
+            if(!$prechk){
+                echo '<input type="submit" value="上一題" name="btn" id="btn2"  />';
+            }
+            ?>
+            
+            <?php
+             if(!$isfinal){
+                echo '<input type="submit" value="下一題" name="btn" id="btn3"  />';
+            }
+            ?>
+          
+           
         </form>
+        
     </div>
     <!-- <div id="app">
         <form action="./send.php" method="post">

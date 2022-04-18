@@ -6,7 +6,10 @@ let y = 0;
 let arr = [];
 let timer = null;
 const btn = document.getElementById('btn');
+const btn2 = document.getElementById('btn2');
+const btn3 = document.getElementById('btn3');
 const coorText = document.getElementById('coorText');
+
 
 function getMousePos(e){
     // console.log(e.pageY);
@@ -16,7 +19,7 @@ function getMousePos(e){
 timer = setInterval(()=>{
     num = num +0.1;
     stopNum++;
-    console.log(stopNum);
+    // console.log(stopNum);
     
     if(stopNum == 600){
         clearInterval(timer);
@@ -30,21 +33,26 @@ timer = setInterval(()=>{
         // console.log("Y:", y);
         coor = "("+x+","+y+")";
         arr.push(coor);
-        console.log(arr);
+        // console.log(arr);
     }
 },100)
 
 
 
-
-btn.addEventListener('click',()=>{
+function send(){
     const reArr = arr.reverse();
     arr.length  = arr.length - 1;
     arr = reArr.reverse();
     newstr = arr.join(",")
-    console.log(newstr);
+    // console.log(newstr);
     coorText.value = newstr;
     clearInterval(timer);
-})
+}
+btn.addEventListener('click',send);
 
-
+if(btn2){
+    btn2.addEventListener('click',send);
+}
+if(btn3){
+    btn3.addEventListener('click',send);
+}
