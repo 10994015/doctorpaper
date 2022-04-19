@@ -21,12 +21,12 @@ timer = setInterval(()=>{
     stopNum++;
     // console.log(stopNum);
     
-    if(stopNum == 600){
-        clearInterval(timer);
-    }
+    // if(stopNum == 600){
+    //     clearInterval(timer);
+    // }
     // console.log(num);
     
-    if(Math.round(num) ==3){
+    if(Math.round(num) ==1){
         num = 0;
         app.addEventListener('mousemove',getMousePos);
         // console.log("X:", x);

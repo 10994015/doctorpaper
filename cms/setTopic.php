@@ -2,7 +2,7 @@
 require_once('../conn.php');
 session_start();
 try{
-    $sql_str = "SELECT * FROM topicNum WHERE id = 1";
+    $sql_str = "SELECT * FROM topicnum WHERE id = 1";
     $stmt = $conn->prepare($sql_str);
     $stmt->execute();
     $row_topic = $stmt->fetch(PDO::FETCH_ASSOC);

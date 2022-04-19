@@ -36,7 +36,9 @@ if(isset($_SESSION['username'])){
         .list > p{
             margin:5px 0;
         }
-        
+        table{
+            margin:auto;
+        }
         table, th , td{
             border:1px #000 solid;
             border-collapse: collapse;
@@ -49,7 +51,7 @@ if(isset($_SESSION['username'])){
             width:50px;
         }
         table th:nth-child(2){
-            width:250px;
+            width:600px;
         }
         table th:nth-child(1){
             width:100px;
@@ -73,7 +75,7 @@ if(isset($_SESSION['username'])){
     <table id="table">
         <thead>
             <tr>
-                <th>姓名</th>
+                <th>編號</th>
                 <th>移動座標</th>
                 <th>開始時間</th>
                 <th>結束時間</th>

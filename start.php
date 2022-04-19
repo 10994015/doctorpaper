@@ -10,7 +10,7 @@ $topicNum = explode('=',explode('&',explode('?', $_SERVER['REQUEST_URI'])[1])[0]
 $pre = $_SERVER['QUERY_STRING'];
 $qs = explode("=",explode("&",$pre)[0])[0];
 $prechk = $qs == "q1";
-echo $prechk;
+// echo $prechk;
 try{
     $sql_str = "SELECT * FROM topic ORDER BY qnumber ASC";
     $RS_topic = $conn -> query($sql_str);
@@ -60,6 +60,13 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
         }
         .topicBox > input {
             margin-right:3px;
+        }
+        #btn{
+            margin-bottom: 10px;
+        }
+        .stepBtn{
+            display: flex;
+            justify-content: space-between;
         }
         
     </style>
@@ -114,17 +121,23 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
             <input type="hidden" name="let" value="<?php echo $let; ?>">
             <a href=""></a>
             <input type="submit" value="送出" name="btn" id="btn" disabled />
+           <div class="stepBtn">
             <?php
-            if(!$prechk){
-                echo '<input type="submit" value="上一題" name="btn" id="btn2"  />';
-            }
-            ?>
-            
-            <?php
-             if(!$isfinal){
-                echo '<input type="submit" value="下一題" name="btn" id="btn3"  />';
-            }
-            ?>
+                if(!$prechk){
+                    echo '<input type="submit" value="上一題" name="btn" id="btn2"  />';
+                }else{
+                    echo '<input type="submit" value="上一題" name="btn" id="btn2" disabled />';
+                }
+                ?>
+                
+                <?php
+                if(!$isfinal){
+                    echo '<input type="submit" value="下一題" name="btn" id="btn3"  />';
+                }else{
+                    echo '<input type="submit" value="下一題" name="btn" id="btn3" disabled />';
+                }
+                ?>
+           </div>
           
            
         </form>

@@ -46,7 +46,7 @@ $qnum = 1;
         <?php foreach($RS_topic as $item){?>
             <input type="hidden" name="<?php echo 'q'.$item['qnumber']; ?>" value="<?php echo $item['qnumber']; ?>" />
         <?php  if($qnum==$let){break;} $qnum++;  } ?>
-            請輸入姓名:<br>
+            請輸入編號:<br>
             <input type="text" name="name" id="name" /><br>
             <input type="hidden" name="let" value="<?php echo $let; ?>">
             <input type="submit" value="開始作答" id="btn" disabled />
