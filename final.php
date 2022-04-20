@@ -1,3 +1,29 @@
+<?php
+require_once('./conn.php');
+try{
+    if(isset($_GET['name']) && $_GET['name'] !== ""){
+        $name = $_GET['name'];
+        $sql_str = "SELECT * FROM users WHERE student = :name";
+        $stmt = $conn->prepare($sql_str);
+        $stmt->bindParam(':name',$name);
+        $stmt->execute();
+        $row_RS_mb = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $y = 0;
+        $n = 0;
+        foreach($row_RS_mb as $item){
+            if( $item['bingo'] == 1){
+                $y +=1;
+            }elseif( $item['bingo'] == -1){
+                $n +=1;
+            }
+        } 
+    }
+}catch ( PDOException $e ){
+    die("ERROR!!!: ". $e->getMessage());
+  }
+
+?>
+
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
@@ -17,6 +43,7 @@
         justify-content: center;
         align-items: center;
         background-color: #d1d1d1;
+        flex-direction: column;
     }
     </style>
 </head>

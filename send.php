@@ -63,7 +63,7 @@ if(isset($_GET['coor'])){
         }
 
         if(isset($_GET['final']) && $btn=="送出"){
-            $url = './final.php';
+            $url = './final.php?name='.$_GET['name'];
         }
 
         if(isset($_GET['final']) && $btn =="上一題"){
