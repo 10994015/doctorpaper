@@ -1,4 +1,5 @@
 <?php
+
 require_once('./conn.php');
 
 ini_set ( 'date.timezone' , 'Asia/Taipei' );  
@@ -153,7 +154,11 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
 
     <script src="script.js"></script>
     <script>
-    window.location.replace('https://google.com');
+    function preventBack(){ window.history.forward();}
+    setTimeout("preventBack()",0);
+    window.onunload = function(){null;}
+
+
     const topicRadio = document.getElementsByClassName('topicRadio');
     for(let i=0;i<topicRadio.length;i++){
         topicRadio[i].addEventListener('change',disabledFn);
