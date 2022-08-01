@@ -28,8 +28,11 @@ if(isset($_SESSION['username'])){
 <body>
 <a href="./">回前頁</a>
     <form action="topicChk.php" method="post">
-        <h4>最多題數: <?php echo $total_RS_topic; ?></h4>
-        <input type="text" name="topic" value="<?php echo $row_topic['num']; ?>">
+        <h4>最多題數:  <?php echo $total_RS_topic; ?> </h4>
+        <input type="hidden" name="max" value="<?php echo $total_RS_topic; ?>">
+        
+        我想要有<input type="text" name="topic" value="<?php echo $row_topic['num']; ?>">題
+        <br><br>
         <input type="submit" value="設定">
     </form>
 </body>
