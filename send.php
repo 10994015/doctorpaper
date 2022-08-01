@@ -17,7 +17,41 @@ if(isset($_GET['coor'])){
         $coor = $_GET['coor'];
         $name = $_GET['name'];
         $qnumber = $_GET['qnumber'];
+        $tosend = $_GET['tosend'];
+        $rand = $_GET['rand'];
         // $pre = $_GET['pre'];
+
+        if($btn == "送出"){
+            $userrand = $_GET['rand'];
+            $userrand2 =  $_GET['rand'];
+            $sql = "SELECT * FROM record WHERE user = :userrand";
+            $stmt1 = $conn->prepare($sql);
+            $stmt1->bindParam(':userrand',$userrand);
+            $stmt1->execute();
+            $row_RS_record = $stmt1->fetch(PDO::FETCH_ASSOC);
+            $recordArr = str_split( $row_RS_record['record'],1);
+            $r = 1;
+            while(true){
+                if(isset($_GET["q$r"])){
+                    $recordArr[$r-2] = $_GET['op'];
+                    
+                    break;
+                }
+                if(isset($_GET['final'])){
+                    break;
+                }
+                $r++;
+            }
+            $recordStr = implode("",$recordArr);
+            echo $recordStr;
+            $sql_str = "UPDATE record SET record = :recordStr WHERE user  = :newuserrand";
+            //執行$conn物件中的prepare()預處理器
+            $stmt2 = $conn->prepare($sql_str);
+            $stmt2->bindParam(':newuserrand',$userrand2);
+            $stmt2->bindParam(':recordStr' ,$recordStr);
+         
+            $stmt2->execute();
+        }
 
         if($btn =="送出"){
             $op = $_GET['op'];
@@ -41,7 +75,7 @@ if(isset($_GET['coor'])){
                         for($i=$n;$i<$let+1;$i++){
                             $url .= "q".$i."=".$_GET["q$i"]."&";
                         }
-                        $url .= "let=".$let."&name=".$name;
+                        $url .= "let=".$let."&name=".$name."&tosend=".$tosend."&rand=".$rand;
                         break;
                     }
                     $n++;
@@ -54,7 +88,7 @@ if(isset($_GET['coor'])){
                         for($i=$n-2;$i<$let+1;$i++){
                             $url .= "q".$i."=".$i."&";
                         }
-                        $url .= "let=".$let."&name=".$name;
+                        $url .= "let=".$let."&name=".$name."&rand=".$rand;
                         break;
                     }
                     $n++;
@@ -67,9 +101,9 @@ if(isset($_GET['coor'])){
         }
 
         if(isset($_GET['final']) && $btn =="上一題"){
-            $url = "./start.php?q$ppre=$ppre&q$pre=$pre&let=$let&name=$name";
+            $url = "./start.php?q$ppre=$ppre&q$pre=$pre&let=$let&name=$name&rand=$rand";
         }
-
+        //&tosend=$tosend&rand=$rand
         
 
        

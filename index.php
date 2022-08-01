@@ -9,6 +9,7 @@ $sql = "SELECT * FROM topic ORDER BY qnumber ASC";
 $RS_topic = $conn -> query($sql);
 $total_RS_topic = $RS_topic -> rowCount();
 
+
 $let = intval($row_topic['num']);
 
 $qnum = 1;
@@ -62,12 +63,17 @@ $qnum = 1;
     const qnumber = document.getElementsByClassName('qnumber');
     const _let = document.getElementById('let');
     let qs = "./start.php?";
+    let randomNum = Math.floor(Math.random()*99999999);
+    console.log(randomNum);
+    
     const btnClickFn = ()=>{
         for(let i=0;i<qnumber.length;i++){
             qs +=`${qnumber[i].name}=${qnumber[i].value}&`;
         }
+        
         qs += `name=${name.value}&let=${_let.value}`;
-
+        qs += `&rand=${name.value}${randomNum}`;
+        
         window.open(qs,"開始作答",config='width=1600,height=1000,toolbar=no,location=no')
     }
     btn.addEventListener('click',btnClickFn);

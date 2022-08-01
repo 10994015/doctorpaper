@@ -5,6 +5,8 @@ require_once('./conn.php');
 ini_set ( 'date.timezone' , 'Asia/Taipei' );  
 date_default_timezone_set('Asia/Taipei');
 $let = $_GET['let'];
+$userRand = $_GET['rand'];
+
 $timeStart = date("Y-m-d H:i:s");
 // $topicNum = $_SERVER['REQUEST_URI'];
 $topicNum = explode('=',explode('&',explode('?', $_SERVER['REQUEST_URI'])[1])[0])[1];
@@ -12,6 +14,45 @@ $pre = $_SERVER['QUERY_STRING'];
 $qs = explode("=",explode("&",$pre)[0])[0];
 $prechk = $qs == "q1";
 // echo $prechk;
+$recordArr = [];
+for($n=0;$n<intval($let);$n++){
+    array_push($recordArr, 0);
+}
+// print_r($recordArr);
+$record = implode('',$recordArr);
+$sql_str = "SELECT * FROM record WHERE user = :userRand";
+$stmt = $conn->prepare($sql_str);
+$stmt->bindParam(':userRand',$userRand);
+$stmt->execute();
+$row_RS_record = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// echo count($row_RS_record);
+$row_RS_record_num = count($row_RS_record);
+if($row_RS_record_num < 1){
+    $sql_str = "INSERT INTO record (user, record ) VALUES (:user, :record)";
+    $stmt = $conn -> prepare($sql_str);
+    $stmt -> bindParam(':user' ,$userRand);
+    $stmt -> bindParam(':record' ,$record);
+    $stmt ->execute();
+}else{
+    $sql_str = "SELECT * FROM record WHERE user = :userRand";
+    $stmt = $conn->prepare($sql_str);
+    $stmt->bindParam(':userRand',$userRand);
+    $stmt->execute();
+    $row_RS_record = $stmt->fetch(PDO::FETCH_ASSOC);
+    // echo "------->".$row_RS_record['record'];
+    $recordArr = str_split( $row_RS_record['record'],1);
+    // print_r($recordArr);
+}
+$p = 1;
+while(true){
+    if(isset($_GET["q$p"])){
+        break;
+    }
+    $p++;
+}
+$user_ans = $recordArr[$p-1];
+// echo "目前是第".$p."題";
+// echo "你之前寫".$user_ans;
 try{
     $sql_str = "SELECT * FROM topic ORDER BY qnumber ASC";
     $RS_topic = $conn -> query($sql_str);
@@ -110,11 +151,22 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
                 <input type="hidden" name="ans" value="<?php echo $item['ans']; ?>">
                 <input type="hidden" name="qnumber" value="<?php echo $item['qnumber']; ?>">
                 <img src="./images/img_upload2/<?php echo $item['topic']; ?>" class="topicImg">
-                <label class="topicBox" for="q1"><input type="radio" class="topicRadio" id="q1" name="op" value="1">A</label>
+                <?php $abcde = ['A','B','C','D','E']; ?>
+                <?php for($t=1;$t<=5;$t++){ 
+                    if($t==$user_ans){
+                ?>
+                    <label class="topicBox" for="q<?php echo $t; ?>"><input type="radio" class="topicRadio" id="q<?php echo $t; ?>" name="op" value="<?php echo $t; ?>" checked><?php echo $abcde[$t-1]; ?></label>
+                <?php 
+                    }else{
+                ?>
+                    
+                    <label class="topicBox" for="q<?php echo $t; ?>"><input type="radio" class="topicRadio" id="q<?php echo $t; ?>" name="op" value="<?php echo $t; ?>"><?php echo $abcde[$t-1]; ?></label>
+                <?php } } ?>
+                <!-- <label class="topicBox" for="q1"><input type="radio" class="topicRadio" id="q1" name="op" value="1">A</label>
                 <label class="topicBox" for="q2"><input type="radio" class="topicRadio" id="q2" name="op" value="2">B</label>
                 <label class="topicBox" for="q3"><input type="radio" class="topicRadio" id="q3" name="op" value="3">C</label>
                 <label class="topicBox" for="q4"><input type="radio" class="topicRadio" id="q4" name="op" value="4">D</label>
-                <label class="topicBox" for="q5"><input type="radio" class="topicRadio" id="q5" name="op" value="5">E</label>
+                <label class="topicBox" for="q5"><input type="radio" class="topicRadio" id="q5" name="op" value="5">E</label> -->
             <?php
             }
            }
@@ -124,6 +176,8 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
             <input type="hidden" name="coor" id="coorText" value="" />
             <input type="hidden" name="timeStart" value="<?php echo $timeStart; ?>" />
             <input type="hidden" name="let" value="<?php echo $let; ?>">
+            <input type="hidden" name="tosend" value="n" id="tosend">
+            <input type="hidden" name="rand" value="<?php echo $userRand; ?>">
             <a href=""></a>
             <input type="submit" value="送出" name="btn" id="btn" disabled />
            <div class="stepBtn">
@@ -162,16 +216,26 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
     setTimeout("preventBack()",0);
     window.onunload = function(){null;}
     const chkfinal = document.getElementsByClassName('chkfinal');
-
+    // const btn = document.getElementById('btn');
+    const tosend = document.getElementById('tosend');
     const topicRadio = document.getElementsByClassName('topicRadio');
     for(let i=0;i<topicRadio.length;i++){
         topicRadio[i].addEventListener('change',disabledFn);
     }
+    for(let i=0;i<5;i++){
+        if(topicRadio[i].checked){
+            btn.disabled = false;
+        }
+    }
     chkfinal[0].addEventListener('change',disabledFn);
     let chkfor = false;
+
+    btn.addEventListener('click',()=>{
+        tosend.value = "y";
+    })
     function disabledFn(){
         if(chkfinal.length>=1){
-            console.log('哈哈');
+            // console.log('哈哈');
             for(let i=0;i<topicRadio.length;i++){
                 if(topicRadio[i].checked){
                     chkfor = true;
