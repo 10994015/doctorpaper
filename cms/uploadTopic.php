@@ -50,6 +50,7 @@ if(isset($_SESSION['username'])){
             <input type="radio" name="ans" value="2" />B
             <input type="radio" name="ans" value="3" />C
             <input type="radio" name="ans" value="4" />D
+            <input type="radio" name="ans" value="5" />E
        </div>
         <p>題號:</p>
        

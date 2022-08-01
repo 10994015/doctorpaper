@@ -2,15 +2,17 @@
 require_once('../conn.php');
 if(isset($_POST['topic']) && $_POST['topic'] != ""){
     $ansstr = strtoupper($_POST['topic']);
-    if( $ansstr=="A" ||  $ansstr=="B" ||  $ansstr=="C" || $ansstr=="D"){
+    if( $ansstr=="A" ||  $ansstr=="B" ||  $ansstr=="C" || $ansstr=="D" || $ansstr=="E"){
         if($ansstr=="A"){
             $ans = 1;
         }elseif($ansstr=="B"){
             $ans = 2;
         }elseif($ansstr=="C"){
             $ans = 3;
-        }else{
+        }elseif($ansstr=="D"){
             $ans = 4;
+        }else{
+            $ans = 5;
         }
        
         try{
@@ -43,7 +45,7 @@ if(isset($_POST['topic']) && $_POST['topic'] != ""){
     }else{
        ?>
         <script>
-            alert('輸入錯誤、請輸入A、B、C、D!');
+            alert('輸入錯誤、請輸入A、B、C、D、E!');
             window.history.go(-1);
             </script>
        <?php

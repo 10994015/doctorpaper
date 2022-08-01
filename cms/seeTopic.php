@@ -2,7 +2,7 @@
 require_once('../conn.php');
 session_start();
 try{
-    $sql_str = "SELECT * FROM topic";
+    $sql_str = "SELECT * FROM topic ORDER BY id DESC";
     $RS_topic = $conn -> query($sql_str);
     $total_RS_topic = $RS_topic -> rowCount();
 }catch(PDOException $e){
@@ -56,7 +56,7 @@ if(isset($_SESSION['username'])){
         <?php foreach($RS_topic as $item){ ?>
             <div class="list">
                 <img src="../images/img_upload2/<?php echo $item['topic']; ?>" alt="">
-                <div class="ans">答案: <?php if($item['ans'] ==1){echo "A";}elseif($item['ans'] ==2){echo "B";}elseif($item['ans'] ==3){echo "C";}else{echo "D";} ?><br>題號:<?php echo $item['qnumber']; ?></div>
+                <div class="ans">答案: <?php if($item['ans'] ==1){echo "A";}elseif($item['ans'] ==2){echo "B";}elseif($item['ans'] ==3){echo "C";}elseif($item['ans'] ==4){echo "D";}else{echo "E";} ?><br>題號:<?php echo $item['qnumber']; ?></div>
                 <div class="btn">
                     <a href="./updataTopic.php?id=<?php echo $item['id']; ?>">編輯題目</a>
                     <a href="javascript:;"" onclick="deleteTopicFn(<?php echo $item['id']; ?>)">刪除題目</a>

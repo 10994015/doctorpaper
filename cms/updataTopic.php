@@ -15,8 +15,10 @@ try {
             $ans = "B";
         }elseif($row_RS_mb['ans']==3){
             $ans = "C";
-        }else{
+        }elseif($row_RS_mb['ans']==4){
             $ans = "D";
+        }else{
+            $ans = "E";
         }
             
     }
@@ -46,7 +48,24 @@ try {
 <a href="./seeTopic.php">回前頁</a>
     <form action="updateTopicChk.php" method="post">
         <img src="../images/img_upload2/<?php echo $row_RS_mb['topic']; ?>" alt=""><br>
-        答案(請輸入A、B、C、D):<input type="text" value="<?php echo $ans;?>" name="topic">
+        請選擇答案:
+        <select name="topic" id="">
+        <?php 
+        $newans = ['A','B','C','D','E'];
+        for($n=0;$n<=4;$n++){ 
+            if($ans == $newans[$n]){
+        ?>
+            <option value="<?php echo $newans[$n]; ?>" selected><?php echo $newans[$n]; ?></option>
+
+        <?php
+            }else{
+        ?>
+            <option value="<?php echo $newans[$n]; ?>"><?php echo $newans[$n]; ?></option>
+        <?php 
+            } 
+        } ?>
+        </select>
+        <!-- <input type="text" value="<?php echo $ans;?>" name="topic"> -->
         題號:<input type="number" name="qnumber" value="<?php echo $row_RS_mb['qnumber']; ?>">
         <input type="hidden" name="id" value="<?php echo $row_RS_mb['id']; ?>">
         <input type="submit" value="更改">

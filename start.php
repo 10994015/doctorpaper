@@ -69,7 +69,9 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
             display: flex;
             justify-content: space-between;
         }
-        
+        .chkfinalLable{
+            order:5;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +97,7 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
                     }
                 }
                 if($isfinal){
+                    echo "<label for='chkfinal' class='chkfinalLable'><input type='checkbox' class='chkfinal' id='chkfinal' />確定檢查完畢</label>";
                     echo "<input name='final' value='final' type='hidden' />";
                 }
               ?>
@@ -111,6 +114,7 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
                 <label class="topicBox" for="q2"><input type="radio" class="topicRadio" id="q2" name="op" value="2">B</label>
                 <label class="topicBox" for="q3"><input type="radio" class="topicRadio" id="q3" name="op" value="3">C</label>
                 <label class="topicBox" for="q4"><input type="radio" class="topicRadio" id="q4" name="op" value="4">D</label>
+                <label class="topicBox" for="q5"><input type="radio" class="topicRadio" id="q5" name="op" value="5">E</label>
             <?php
             }
            }
@@ -157,14 +161,31 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
     function preventBack(){ window.history.forward();}
     setTimeout("preventBack()",0);
     window.onunload = function(){null;}
-
+    const chkfinal = document.getElementsByClassName('chkfinal');
 
     const topicRadio = document.getElementsByClassName('topicRadio');
     for(let i=0;i<topicRadio.length;i++){
         topicRadio[i].addEventListener('change',disabledFn);
     }
+    chkfinal[0].addEventListener('change',disabledFn);
+    let chkfor = false;
     function disabledFn(){
+        if(chkfinal.length>=1){
+            console.log('哈哈');
+            for(let i=0;i<topicRadio.length;i++){
+                if(topicRadio[i].checked){
+                    chkfor = true;
+                }
+            }
+            if(chkfinal[0].checked && chkfor){
+                btn.disabled = false;
+            }else{
+                btn.disabled = true;
+            }
+            return;
+        }
         btn.disabled = false;
+        
     }
 
     </script>
