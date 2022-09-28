@@ -51,7 +51,7 @@ if(isset($_SESSION['username'])){
             width:50px;
         }
         table th:nth-child(2){
-            width:600px;
+            max-width:600px;
         }
         table th:nth-child(1){
             width:100px;

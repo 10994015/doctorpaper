@@ -12,6 +12,20 @@ if(isset($_SESSION['username'])){
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>後臺中心</title>
     <style>
+    *{
+        margin:0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #f1f1f1;
+    }
+    #app {
+        display: flex;
+        flex-direction: column;
+        font-family: Arial, Helvetica, sans-serif;
+        width:100%;
+        padding: 30px;
+        
+    }
     #app > a{
         display: block;
         width:120px;
@@ -33,7 +47,7 @@ if(isset($_SESSION['username'])){
 </head>
 <body>
     <div id="app">
-        <h1>後臺管理中心</h1>
+        <h1>Content Management System</h1>
         <a href="./setTopic.php">設定題數</a>
         <a href="./uploadTopic.php">新增題目</a>
         <a href="./seeTopic.php">查看題目</a>
