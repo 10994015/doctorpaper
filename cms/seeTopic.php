@@ -44,6 +44,7 @@ if(isset($_SESSION['username'])){
     }
     .list > .ans{
         margin-left: 10px;
+        width:160px;
     }
     .list > .btn > a{
         margin:10px 0;
@@ -56,7 +57,7 @@ if(isset($_SESSION['username'])){
         <?php foreach($RS_topic as $item){ ?>
             <div class="list">
                 <img src="../images/img_upload2/<?php echo $item['topic']; ?>" alt="">
-                <div class="ans">答案: <?php if($item['ans'] ==1){echo "A";}elseif($item['ans'] ==2){echo "B";}elseif($item['ans'] ==3){echo "C";}elseif($item['ans'] ==4){echo "D";}else{echo "E";} ?><br>題號:<?php echo $item['qnumber']; ?></div>
+                <div class="ans">答案: <?php if($item['ans'] ==1){echo "A";}elseif($item['ans'] ==2){echo "B";}elseif($item['ans'] ==3){echo "C";}elseif($item['ans'] ==4){echo "D";}elseif($item['ans']==5){echo "E";}else{echo "No model answer";} ?><br>題號:<?php echo $item['qnumber']; ?></div>
                 <div class="btn">
                     <a href="./updataTopic.php?id=<?php echo $item['id']; ?>">編輯題目</a>
                     <a href="javascript:;"" onclick="deleteTopicFn(<?php echo $item['id']; ?>)">刪除題目</a>

@@ -17,8 +17,10 @@ try {
             $ans = "C";
         }elseif($row_RS_mb['ans']==4){
             $ans = "D";
-        }else{
+        }elseif($row_RS_mb['ans']==5){
             $ans = "E";
+        }else{
+            $ans = "No model answer";
         }
             
     }
@@ -51,8 +53,8 @@ try {
         請選擇答案:
         <select name="topic" id="">
         <?php 
-        $newans = ['A','B','C','D','E'];
-        for($n=0;$n<=4;$n++){ 
+        $newans = ['A','B','C','D','E','No model answer'];
+        for($n=0;$n<=5;$n++){ 
             if($ans == $newans[$n]){
         ?>
             <option value="<?php echo $newans[$n]; ?>" selected><?php echo $newans[$n]; ?></option>

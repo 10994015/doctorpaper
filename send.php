@@ -8,8 +8,8 @@ $pre = intval(explode("=",explode("&",explode("?",$_SERVER["HTTP_REFERER"])[1])[
 $ppre = $pre-1;
 if(isset($_GET['coor'])){
     try{
-        $sql_str = "INSERT INTO users (student,coor,timeStart,timeEnd,bingo,qnum)
-        VALUES (:name,:coor,:timeStart,:timeEnd,:bingo,:qnumber)";
+        $sql_str = "INSERT INTO users (student,coor,timeStart,timeEnd,bingo,qnum,ans)
+        VALUES (:name,:coor,:timeStart,:timeEnd,:bingo,:qnumber,:op)";
         $btn = $_GET['btn'];
         $stmt = $conn -> prepare($sql_str);
         $n = 0;
@@ -19,6 +19,11 @@ if(isset($_GET['coor'])){
         $qnumber = $_GET['qnumber'];
         $tosend = $_GET['tosend'];
         $rand = $_GET['rand'];
+        if(empty($_GET['op'])){
+            $op = 0;
+        }else{
+            $op = $_GET['op'];
+        }
         // $pre = $_GET['pre'];
 
         if($btn == "送出"){
@@ -31,6 +36,7 @@ if(isset($_GET['coor'])){
             $row_RS_record = $stmt1->fetch(PDO::FETCH_ASSOC);
             $recordArr = str_split( $row_RS_record['record'],1);
             $r = 1;
+            print_r($recordArr);
             while(true){
                 if(isset($_GET["q$r"])){
                     $recordArr[$r-2] = $_GET['op'];
@@ -43,7 +49,7 @@ if(isset($_GET['coor'])){
                 $r++;
             }
             $recordStr = implode("",$recordArr);
-            echo $recordStr;
+            // echo $recordStr;
             $sql_str = "UPDATE record SET record = :recordStr WHERE user  = :newuserrand";
             //執行$conn物件中的prepare()預處理器
             $stmt2 = $conn->prepare($sql_str);
@@ -51,15 +57,34 @@ if(isset($_GET['coor'])){
             $stmt2->bindParam(':recordStr' ,$recordStr);
          
             $stmt2->execute();
+
+            if($pre == $let){
+                $recordArr[$let - 1] = $op;
+                $recordStr = implode("",$recordArr);
+                $sql_str = "UPDATE record SET record = :recordStr WHERE user  = :newuserrand";
+                //執行$conn物件中的prepare()預處理器
+                $stmt2 = $conn->prepare($sql_str);
+                $stmt2->bindParam(':newuserrand',$userrand2);
+                $stmt2->bindParam(':recordStr' ,$recordStr);
+             
+                $stmt2->execute();
+            }
         }
 
-        if($btn =="送出"){
-            $op = $_GET['op'];
+        if($btn =="送出" || $btn == "交卷"){
+            if(empty($_GET['op'])){
+                $op = 0;
+            }else{
+                $op = $_GET['op'];
+            }
             $ans = $_GET['ans'];
             if($op == $ans){
                 $bingo = 1;
             }else{
                 $bingo = -1;
+            }
+            if($ans == 0){
+                $bingo = 999;
             }
         }else{
             $bingo = 0;
@@ -97,14 +122,16 @@ if(isset($_GET['coor'])){
         }
 
         if(isset($_GET['final']) && $btn=="送出"){
-            $url = './final.php?name='.$_GET['name'];
+            $url = './final.php?name='.$_GET['name'].'&rand='.$rand;
         }
 
         if(isset($_GET['final']) && $btn =="上一題"){
             $url = "./start.php?q$ppre=$ppre&q$pre=$pre&let=$let&name=$name&rand=$rand";
         }
         //&tosend=$tosend&rand=$rand
-        
+        if($btn == "交卷"){
+            $url = "./finish.php";
+        }
 
        
 
@@ -114,6 +141,7 @@ if(isset($_GET['coor'])){
         $stmt -> bindParam(':timeEnd' ,$timeEnd);
         $stmt -> bindParam(':bingo' ,$bingo);
         $stmt -> bindParam(':qnumber' ,$qnumber);
+        $stmt -> bindParam(':op' ,$op);
 
         
 
@@ -127,9 +155,23 @@ if(isset($_GET['coor'])){
         header('Location:'.$url);
        
     }catch(PDOException $e){
-        die("Error!:註冊失敗.....".$e->getMessage());
+        die("Error!:程式碼錯誤.....".$e->getMessage());
     }
     
-}else{
+}elseif(isset($_GET['finish'])){
+    if($_GET['finish'] == 1){
+        $name = $_GET['name'];
+        $rand = $_GET['rand'];
+        $let = $_GET['let'];
+        $url = "./start.php?q$let=$let&let=$let&name=$name&rand=$rand";
+    
+        header('Location:'.$url);
+    }else{
+        $url = "./finish.php";
+        header('Location:'.$url);
+    }
+  
+}
+else{
     echo "錯誤";
 }

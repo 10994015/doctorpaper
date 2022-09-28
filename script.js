@@ -8,6 +8,7 @@ let timer = null;
 const btn = document.getElementById('btn');
 const btn2 = document.getElementById('btn2');
 const btn3 = document.getElementById('btn3');
+const btn4 = document.getElementById('btn4');
 const coorText = document.getElementById('coorText');
 
 
@@ -55,4 +56,7 @@ if(btn2){
 }
 if(btn3){
     btn3.addEventListener('click',send);
+}
+if(btn4){
+    btn4.addEventListener('click',send);
 }

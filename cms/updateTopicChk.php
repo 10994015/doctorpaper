@@ -2,7 +2,7 @@
 require_once('../conn.php');
 if(isset($_POST['topic']) && $_POST['topic'] != ""){
     $ansstr = strtoupper($_POST['topic']);
-    if( $ansstr=="A" ||  $ansstr=="B" ||  $ansstr=="C" || $ansstr=="D" || $ansstr=="E"){
+    if( isset($ansstr)){
         if($ansstr=="A"){
             $ans = 1;
         }elseif($ansstr=="B"){
@@ -11,8 +11,10 @@ if(isset($_POST['topic']) && $_POST['topic'] != ""){
             $ans = 3;
         }elseif($ansstr=="D"){
             $ans = 4;
-        }else{
+        }elseif($ansstr=="E"){
             $ans = 5;
+        }else{
+            $ans = 0;
         }
        
         try{

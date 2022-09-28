@@ -44,7 +44,32 @@ if(isset($_SESSION['username'])){
 </html>
 
 <?php }else{ ?>
-    <h2>請先登入!!!</h2>
-    <a href="./login.php">點擊登入</a>
+    <style>
+    *{
+        margin:0;
+        padding: 0;
+    }
+    .error{
+        width:100%;
+        height: 100vh;
+        background-color: #212121;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color:#fff;
+        flex-direction: column;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+    }
+    .error a{
+        color:#f00;
+        text-decoration: none;
+    }
+    </style>
+    <div class="error">
+        <h2>你無權限訪問此網站，請先登入！</h2>
+        <p>You do not have permission to enter this website!</p>
+        <a href="./login.php">點擊登入</a>
+    </div>
 
 <?php } ?>

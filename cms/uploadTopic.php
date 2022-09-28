@@ -46,11 +46,12 @@ if(isset($_SESSION['username'])){
         <input type="file" name="upload_img" id="file" />
         <p>答案:</p>
         <div>
-            <input type="radio" name="ans" value="1" />A
-            <input type="radio" name="ans" value="2" />B
-            <input type="radio" name="ans" value="3" />C
-            <input type="radio" name="ans" value="4" />D
-            <input type="radio" name="ans" value="5" />E
+            <label for="a"><input type="radio" name="ans" id="a" value="1" />A</label>
+            <label for="b"><input type="radio" name="ans" id="b" value="2" />B</label>
+            <label for="c"><input type="radio" name="ans" id="c" value="3" />C</label>
+            <label for="d"><input type="radio" name="ans" id="d" value="4" />D</label>
+            <label for="e"><input type="radio" name="ans" id="e" value="5" />E</label>
+            <label for="null"><input type="radio" name="ans" id="null" value="0" />沒有標準答案</label>
        </div>
         <p>題號:</p>
        

@@ -113,6 +113,31 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
         .chkfinalLable{
             order:5;
         }
+        .finish{
+            position: absolute;
+            top: -99999999999999px;
+            right:-99999999999999px;
+            z-index: -99999999999999;
+            width:0px;
+            height: 0px;
+            overflow: hidden;
+            display:block;
+        }
+        #sendBtn{
+            position: absolute;
+            top: 100px;
+            right:100px;
+            width:80px;
+            height: 30px;
+            border:1px #000 solid;
+            background-color: #efefef;
+            text-decoration: none;
+            display: block;
+            color:#000;
+            line-height: 30px;
+            text-align: center;
+            
+        }
     </style>
 </head>
 <body>
@@ -120,6 +145,9 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
 
     <div id="app">
         <form action="./send.php" method="get">
+            <!-- <a href="javascript:;" id="finish" onclick="finishFn()">交卷</a> -->
+           
+            <!-- <input type="submit" id="finish" value="交卷"> -->
               <?php
                 $n=0;
                 $isfinal = false;
@@ -138,7 +166,7 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
                     }
                 }
                 if($isfinal){
-                    echo "<label for='chkfinal' class='chkfinalLable'><input type='checkbox' class='chkfinal' id='chkfinal' />確定檢查完畢</label>";
+                    // echo "<label for='chkfinal' class='chkfinalLable'><input type='checkbox' class='chkfinal' id='chkfinal' />確定檢查完畢</label>";
                     echo "<input name='final' value='final' type='hidden' />";
                 }
               ?>
@@ -197,8 +225,8 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
                 }
                 ?>
            </div>
-          
-           
+           <input type="submit" value="交卷" id="btn4" class="finish" name="btn">
+           <a href="javascript:;" id="sendBtn" onclick="finishFn()">交卷</a>
         </form>
         
     </div>
@@ -215,7 +243,7 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
     function preventBack(){ window.history.forward();}
     setTimeout("preventBack()",0);
     window.onunload = function(){null;}
-    const chkfinal = document.getElementsByClassName('chkfinal');
+    // const chkfinal = document.getElementsByClassName('chkfinal');
     // const btn = document.getElementById('btn');
     const tosend = document.getElementById('tosend');
     const topicRadio = document.getElementsByClassName('topicRadio');
@@ -227,31 +255,38 @@ if(isset($_GET['name']) && $_GET['name'] != ""){
             btn.disabled = false;
         }
     }
-    chkfinal[0].addEventListener('change',disabledFn);
+    // chkfinal[0].addEventListener('change',disabledFn);
     let chkfor = false;
 
     btn.addEventListener('click',()=>{
         tosend.value = "y";
     })
     function disabledFn(){
-        if(chkfinal.length>=1){
-            // console.log('哈哈');
-            for(let i=0;i<topicRadio.length;i++){
-                if(topicRadio[i].checked){
-                    chkfor = true;
-                }
-            }
-            if(chkfinal[0].checked && chkfor){
-                btn.disabled = false;
-            }else{
-                btn.disabled = true;
-            }
-            return;
-        }
+        // if(chkfinal.length>=1){
+        //     // console.log('哈哈');
+        //     for(let i=0;i<topicRadio.length;i++){
+        //         if(topicRadio[i].checked){
+        //             chkfor = true;
+        //         }
+        //     }
+        //     if(chkfinal[0].checked && chkfor){
+        //         btn.disabled = false;
+        //     }else{
+        //         btn.disabled = true;
+        //     }
+        //     return;
+        // }
         btn.disabled = false;
         
     }
-
+    function finishFn(){
+        let chk = confirm('確定要交卷嗎?');
+        if(chk){
+            document.getElementById('btn4').click();
+            return;
+        }
+    }
+  
     </script>
 </body>
 </html>
